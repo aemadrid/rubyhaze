@@ -1,4 +1,4 @@
-= rubyhaze
+= rubyhaze-0.0.1
 
 JRuby convenience library to connect with {Hazelcast}[http://hazelcast.com]. According to the website:
 
