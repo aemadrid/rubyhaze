@@ -1,29 +1,31 @@
-require 'rubygems'
 require 'rake'
+require 'rake/testtask'
+require 'rake/rdoctask'
 
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "rubyhaze"
-    gem.summary = %Q{JRuby driver to connect with Hazelcast}
+    gem.summary = %Q{JRuby convenience library to connect with Hazelcast}
     gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "aemadrid@alliancehealth.com"
+    gem.email = "aemadrid@gmail.com"
     gem.homepage = "http://github.com/aemadrid/rubyhaze"
     gem.authors = ["Adrian Madrid"]
-    gem.add_development_dependency "bacon", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.test_files = Dir["test/test*.rb"]
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-require 'rake/testtask'
-Rake::TestTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.verbose = true
+Rake::TestTask.new :test do |t|
+  t.libs << "lib"
+  t.test_files = FileList["test/**/*.rb"]
 end
+
+task :test => :check_dependencies
+
+task :default => :test
 
 begin
   require 'rcov/rcovtask'
@@ -37,10 +39,6 @@ rescue LoadError
     abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
   end
 end
-
-task :spec => :check_dependencies
-
-task :default => :spec
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
