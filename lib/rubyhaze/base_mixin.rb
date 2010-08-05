@@ -2,6 +2,10 @@ module RubyHaze::BaseMixin
 
   java_import 'com.hazelcast.core.Hazelcast'
 
+  def self.included(base)
+    base.extend ClassMethods
+  end
+
   attr_reader :name
 
   def crc
@@ -18,6 +22,19 @@ module RubyHaze::BaseMixin
     else
       super
     end
+  end
+
+  def ==(other)
+    return false unless other.class.name == self.class.name
+    name == other.name
+  end
+
+  module ClassMethods
+
+    def [](name)
+      new(name)
+    end
+
   end
 
 end

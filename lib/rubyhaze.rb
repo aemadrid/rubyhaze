@@ -10,8 +10,19 @@ module RubyHaze
 
   $CLASSPATH << TMP_PATH
 
-  unless defined? Hazelcast
+  unless defined? MODE
     require LIB_PATH + '/' + (ENV['RUBYHAZE_MODE'] || 'node')
+  end
+
+  puts ">> Loading Hazelcast #{MODE} library..."
+  if File.file?(JAR_PATH)
+    require JAR_PATH
+    java_import 'com.hazelcast.core.Hazelcast'
+    Hazelcast.get_cluster
+    puts ">> ... loaded!"
+  else
+    puts "ERROR! Could not find the Hazelcast JAR file in [#{JAR_PATH}]."
+    abort
   end
 
   %w{core_ext base_mixin map multi_map set list queue topic lock stored}.each do |name|

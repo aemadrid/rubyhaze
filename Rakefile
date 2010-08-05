@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
@@ -7,11 +8,14 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "rubyhaze"
     gem.summary = %Q{JRuby convenience library to connect with Hazelcast}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.description = %Q{JRuby convenience library to connect with Hazelcast}
     gem.email = "aemadrid@gmail.com"
     gem.homepage = "http://github.com/aemadrid/rubyhaze"
     gem.authors = ["Adrian Madrid"]
+    gem.files = FileList['bin/*', 'lib/**/*.rb', 'test/**/*.rb', '[A-Z]*'].to_a
     gem.test_files = Dir["test/test*.rb"]
+    gem.platform = "jruby"
+    gem.add_dependency "bitescript"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
@@ -20,7 +24,7 @@ end
 
 Rake::TestTask.new :test do |t|
   t.libs << "lib"
-  t.test_files = FileList["test/**/*.rb"]
+  t.test_files = FileList["test/**/test*.rb"]
 end
 
 task :test => :check_dependencies

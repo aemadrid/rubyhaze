@@ -1,4 +1,11 @@
-require File.expand_path(File.dirname(__FILE__) + '/helper')
+require File.expand_path(File.dirname(__FILE__) + '/../lib/rubyhaze')
+require 'test/unit'
+
+class Foo
+  include RubyHaze::Stored
+  field :name, :string
+  field :age, :int
+end unless defined? Foo
 
 class TestRubyHazeStoredClassMethods < Test::Unit::TestCase
 
@@ -25,7 +32,7 @@ class TestRubyHazeStoredClassMethods < Test::Unit::TestCase
 
 end
 
-class TestRubyHazeStoredStorage
+class TestRubyHazeStoredStorage < Test::Unit::TestCase
 
   def test_store_reload_objects
     Foo.store.clear
@@ -47,22 +54,32 @@ class TestRubyHazeStoredStorage
     @a = Foo.create :name => "Leonardo", :age => 65
     @b = Foo.create :name => "Michelangelo", :age => 45
     @c = Foo.create :name => "Raffaello", :age => 32
-    res = Foo.find 'age > 50'
+
+    res = Foo.find 'age < 40'
+    assert_equal res.size, 1
+    assert_equal res.first, @c
+    assert_equal res.first.name, @c.name
+
+    res = Foo.find 'age BETWEEN 40 AND 50'
     assert_equal res.size, 1
     assert_equal res.first, @b
-    res = Foo.find 'BETWEEN 40 AND 50'
-    assert_equal res.size, 1
-    assert_equal res.first, @b
+    assert_equal res.first.name, @b.name
+
     res = Foo.find "name LIKE 'Leo%'"
     assert_equal res.size, 1
     assert_equal res.first, @a
-    res = Foo.find "age IN (32, 65)"
-    assert_equal res.size, 2
-    res.first.should_include @a
-    res.first.should_include @b
+    assert_equal res.first.name, @a.name
+
+#    res = Foo.find "age IN (32, 65)"
+#    assert_equal res.size, 2
+#    names = res.map{|x| x.name }.sort
+#    assert_equal names.first, @a.name
+#    assert_equal names.last, @b.name
+
     res = Foo.find "age < 40 AND name LIKE '%el%'"
     assert_equal res.size, 1
     assert_equal res.first, @c
+    assert_equal res.first.name, @c.name
   end
-  
+
 end

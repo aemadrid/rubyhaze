@@ -1,6 +1,56 @@
 = rubyhaze
 
-Description goes here.
+JRuby convenience library to connect with {Hazelcast}[http://hazelcast.com]. According to the website:
+
+Hazelcast is an open source clustering and highly scalable data distribution platform for Java, which is:
+
+* Lightning-fast; thousands of operations/sec.
+* Fail-safe; no losing data after crashes.
+* Dynamically scales as new servers added.
+* Super-easy to use; include a single jar.
+
+== Getting started
+
+Let's get the gem installed and test out the interactive console.
+
+  rvm jruby
+  gem install rubyhaze
+  export HAZELCAST_JAR_PATH=/my/own/path/hazelcast-1.8.5.jar
+  rh_console
+
+  hash = RH::Hash[:test]
+  hash[:a] = 1
+  hash[:b] = 2
+
+Let's open another console to check how this distributed hash works:
+
+  rh_console
+
+  hash = RH::Hash[:test]
+  hash[:a]
+
+  >> 1
+
+== Distributed Objects
+
+Now let's share our own objects:
+
+  rh_console
+
+  class Foo
+    include RubyHaze::Stored
+    field :name, :string
+    field :age, :int
+  end
+
+  a = Foo.create :name => "Leonardo", :age => 65
+  b = Foo.create :name => "Michelangelo", :age => 45
+  c = Foo.create :name => "Raffaello", :age => 32
+
+  found = Foo.find 'age BETWEEN 40 AND 50'
+  found.first.name
+
+  >> "Michelangelo"
 
 == Note on Patches/Pull Requests
  

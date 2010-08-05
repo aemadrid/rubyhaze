@@ -1,6 +1,7 @@
 #!/usr/bin/env jruby
-require File.expand_path(File.dirname(__FILE__) + '/../lib/rubyhaze')
+path = "/../lib/rubyhaze/#{ARGV.include?('client') ? :client : :node}"
+require File.expand_path(File.dirname(__FILE__) + path)
+
 require 'irb'
-RubyHaze.cluster
 ARGV.clear
 IRB.start(__FILE__)

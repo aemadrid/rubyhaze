@@ -8,7 +8,14 @@ module RubyHaze::Stored
   end
 
   def initialize(*args)
-    set args.last
+    return if args.empty?
+    hash = args.extract_options!
+    set hash if hash
+    unless args.empty?
+      args.each_with_index do |value, idx|
+        set self.class.field_names[idx], value
+      end
+    end
   end
 
   def set(*args)
@@ -33,6 +40,10 @@ module RubyHaze::Stored
     self.class.field_names.map{ |name| [ name, instance_variable_get("@#{name}") ] }
   end
 
+  def values
+    self.class.field_names.map{ |name| instance_variable_get("@#{name}") }
+  end
+
   def to_ary
     attributes.unshift [ 'class', self.class.name ]
   end
@@ -43,13 +54,14 @@ module RubyHaze::Stored
   end
 
   def shadow_object
-    self.class.store_java_class.new attributes.map{ |pair| pair.first }
+    self.class.store_java_class.new *values
   end
 
   def load_shadow_object(shadow)
     self.class.field_names.each do |name|
       instance_variable_set "@#{name}", shadow.send(name)
     end
+    self
   end
 
   attr_accessor :uid
@@ -69,12 +81,8 @@ module RubyHaze::Stored
 
   alias :reload :load
 
-  def attributes
-
-  end
-
   def to_s
-    "<" + self.class.name + " " + self.class.fields.map{}
+    "<" + self.class.name + " " + attributes[1..-1].inspect + " >"
   end
 
   module ClassMethods
@@ -100,6 +108,7 @@ module RubyHaze::Stored
     def field_options() fields.map { |ary| ary[2] } end
 
     def field(name, type, options = {})
+      puts "Defining :#{name}, :#{type}, #{options.inspect}..."
       raise "Field [#{name} already defined" if field_names.include?(name)
       fields << [ name, type, options ]
       attr_accessor name
@@ -145,14 +154,19 @@ module RubyHaze::Stored
       class_dsl << %{  end}
       class_dsl << %{end}
       class_dsl = class_dsl.join("\n")
-      filename = "#{RubyHaze::TMP_PATH}/#{store_java_class_name}.bc"
-      File.open(filename, 'w') { |file| file.write class_dsl }
+      if $DEBUG
+        FileUtils.mkdir_p RubyHaze::TMP_PATH
+        filename = RubyHaze::TMP_PATH + '/' + store_java_class_name + '.bc'
+        File.open(filename, 'w') { |file| file.write class_dsl }
+      end
       builder.instance_eval class_dsl, __FILE__, __LINE__
-      builder.generate do |filename, class_builder|
+      builder.generate do |builder_filename, class_builder|
         bytes = class_builder.generate
         klass = JRuby.runtime.jruby_class_loader.define_class store_java_class_name, bytes.to_java_bytes
-        filename = "#{RubyHaze::TMP_PATH}/#{store_java_class_name}.class"
-        File.open(filename, 'w') { |file| file.write class_builder.generate }
+        if $DEBUG
+          filename = RubyHaze::TMP_PATH + '/' + builder_filename
+          File.open(filename, 'w') { |file| file.write class_builder.generate }
+        end
         RubyHaze.const_set store_java_class_name, JavaUtilities.get_proxy_class(klass.name)
       end
       RubyHaze.const_get store_java_class_name
