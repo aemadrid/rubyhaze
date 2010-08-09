@@ -1,3 +1,4 @@
+raise "Rubyhaze only runs on JRuby. Sorry!" unless (RUBY_PLATFORM =~ /java/)
 require 'java'
 
 module RubyHaze

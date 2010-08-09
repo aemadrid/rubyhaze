@@ -1,8 +1,10 @@
+raise "Rubyhaze only runs on JRuby. Sorry!" unless (RUBY_PLATFORM =~ /java/)
 require 'java'
 
 module RubyHaze
 
   class Exception < StandardError; end
+  class HazelcastException < StandardError; end
 
   ROOT     = File.expand_path File.join(File.dirname(__FILE__), '..') unless defined? ROOT
   LIB_PATH = ROOT + "/lib/rubyhaze" unless defined? LIB_PATH

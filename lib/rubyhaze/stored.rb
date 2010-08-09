@@ -108,7 +108,6 @@ module RubyHaze::Stored
     def field_options() fields.map { |ary| ary[2] } end
 
     def field(name, type, options = {})
-      puts "Defining :#{name}, :#{type}, #{options.inspect}..."
       raise "Field [#{name} already defined" if field_names.include?(name)
       fields << [ name, type, options ]
       attr_accessor name
