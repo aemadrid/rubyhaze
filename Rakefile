@@ -7,8 +7,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "rubyhaze"
-    gem.summary = %Q{JRuby convenience library to connect with Hazelcast}
-    gem.description = %Q{JRuby convenience library to connect with Hazelcast}
+    gem.summary = %Q{JRuby wrapper to play with Hazelcast}
+    gem.description = %Q{RubyHaze is a little gem that wraps the Java Hazelcast library into a more comfortable Ruby package (in JRuby, of course).}
     gem.email = "aemadrid@gmail.com"
     gem.homepage = "http://github.com/aemadrid/rubyhaze"
     gem.authors = ["Adrian Madrid"]
