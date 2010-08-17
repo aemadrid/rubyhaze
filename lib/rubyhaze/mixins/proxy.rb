@@ -22,10 +22,17 @@ module RubyHaze
 
       module ClassMethods
 
-        def proxy_accessor(from, to = nil)
-          to ||= from
-          class_eval %{def #{from}() proxy_object.send :get_#{to} end}
-          class_eval %{def #{from}=(v) proxy_object.send :set_#{to}, v end}
+        def proxy_accessor(aliased_name, real_name = nil)
+          real_name ||= aliased_name
+          aliased_name = aliased_name.to_s
+          if aliased_name[-1,1] == '?'
+            class_eval %{def #{aliased_name[0..-2]}() proxy_object.send :is_#{real_name}? end}
+            class_eval %{def #{aliased_name}() proxy_object.send :is_#{real_name}? end}
+            class_eval %{def #{aliased_name[0..-2]}=(v) proxy_object.send :set_#{real_name}, v end}
+          else
+            class_eval %{def #{aliased_name}() proxy_object.send :get_#{real_name}? end}
+            class_eval %{def #{aliased_name}=(v) proxy_object.send :set_#{real_name}, v end}
+          end
         end
 
         def proxy_accessors(*args)

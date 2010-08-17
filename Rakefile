@@ -24,7 +24,7 @@ end
 
 Rake::TestTask.new :test do |t|
   t.libs << "lib"
-  t.test_files = FileList["test/**/test*.rb"]
+  t.test_files = FileList["test/**/test_*.rb"rb]
 end
 
 task :test => :check_dependencies

@@ -1,15 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../../lib/rubyhaze')
 
-class RubyHaze::QueueConfig
+class RubyHaze::TopicConfig
 
   include RubyHaze::Mixins::Proxy
 
-  java_import 'com.hazelcast.config.QueueConfig'
+  java_import 'com.hazelcast.config.TopicConfig'
 
-  proxy_accessors :max_size_per_jvm, :name, :time_to_live_seconds
+  proxy_accessors [:global_ordering?, :global_ordering_enabled], :name
 
   def initialize(name, options = nil)
-    @proxy_object = Java::ComHazelcastConfig::QueueConfig.new
+    @proxy_object = Java::ComHazelcastConfig::TopicConfig.new
     self.name = name.to_s
     options ||= self.class.default_options
     options.each { |k,v| send "#{k}=", v }
@@ -18,11 +18,11 @@ class RubyHaze::QueueConfig
   class << self
 
     def default_options
-      { :max_size_per_jvm => 10000, :time_to_live_seconds => 0 }
+      {}
     end
 
     def [](name)
-      RubyHaze.config.queue_config name.to_s
+      RubyHaze.config.topic_config name.to_s
     end
 
   end
