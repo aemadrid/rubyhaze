@@ -1,8 +1,19 @@
 class RubyHaze::FakeStore
 
+  java_import 'com.hazelcast.core.MapLoader'
   java_import 'com.hazelcast.core.MapStore'
 
   include MapStore
+  include MapLoader
+
+  def load(key)
+    puts "[FakeStore] Loading key [#{key}]"
+  end
+
+  def load_all(keys)
+    puts "[FakeStore] Loading #{keys.size} keys"
+    keys.each { |key| load key }
+  end
 
   def delete(key)
     puts "[FakeStore] Deleting key [#{key}]"

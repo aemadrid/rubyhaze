@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Adrian Madrid"]
-  s.date = %q{2010-08-05}
+  s.date = %q{2010-08-16}
   s.default_executable = %q{rh_console}
   s.description = %q{JRuby convenience library to connect with Hazelcast}
   s.email = %q{aemadrid@gmail.com}
@@ -26,12 +26,19 @@ Gem::Specification.new do |s|
      "VERSION",
      "bin/rh_console",
      "lib/rubyhaze.rb",
-     "lib/rubyhaze/base_mixin.rb",
      "lib/rubyhaze/client.rb",
+     "lib/rubyhaze/configs/config.rb",
+     "lib/rubyhaze/configs/group.rb",
+     "lib/rubyhaze/configs/map.rb",
+     "lib/rubyhaze/configs/queue.rb",
      "lib/rubyhaze/core_ext.rb",
      "lib/rubyhaze/list.rb",
      "lib/rubyhaze/lock.rb",
      "lib/rubyhaze/map.rb",
+     "lib/rubyhaze/mixins/compare.rb",
+     "lib/rubyhaze/mixins/do_proxy.rb",
+     "lib/rubyhaze/mixins/native_exception.rb",
+     "lib/rubyhaze/mixins/proxy.rb",
      "lib/rubyhaze/multi_map.rb",
      "lib/rubyhaze/node.rb",
      "lib/rubyhaze/queue.rb",

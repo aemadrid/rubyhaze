@@ -16,6 +16,9 @@ tmtags
 ## IDEA
 .idea/*
 
+## RVM
+.rvmrc
+
 ## PROJECT::GENERAL
 coverage
 rdoc
