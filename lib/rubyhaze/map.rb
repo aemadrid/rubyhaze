@@ -2,19 +2,19 @@ require File.expand_path(File.dirname(__FILE__) + '/../../lib/rubyhaze')
 
 class RubyHaze::Map
 
-  include RubyHaze::BaseMixin
+  include RubyHaze::Mixins::DOProxy
 
   java_import 'com.hazelcast.query.SqlPredicate'
 
   def initialize(name)
     @name = name.to_s
-    @hco = Hazelcast.get_map @name
+    @proxy_object = Hazelcast.get_map @name
   rescue NativeException => x
     rescue_native_exception x
   end
 
   def each
-    @hco.each do |(key, value)|
+    proxy_object.each do |(key, value)|
       yield key, value
     end
   rescue NativeException => x
@@ -22,37 +22,37 @@ class RubyHaze::Map
   end
   
   def [](key)
-    @hco[key.to_s]
+    proxy_object[key.to_s]
   rescue NativeException => x
     rescue_native_exception x
   end
   
   def []=(key,value)
-    @hco[key.to_s] = value
+    proxy_object[key.to_s] = value
   rescue NativeException => x
     rescue_native_exception x
   end
 
   def keys(predicate = nil)
-    @hco.key_set(prepare_predicate(predicate)).map
+    proxy_object.key_set(prepare_predicate(predicate)).map
   rescue NativeException => x
     rescue_native_exception x
   end
 
   def values(predicate = nil)
-    @hco.values(prepare_predicate(predicate)).map
+    proxy_object.values(prepare_predicate(predicate)).map
   rescue NativeException => x
     rescue_native_exception x
   end
 
   def local_keys(predicate = nil)
-    @hco.local_key_set(prepare_predicate(predicate)).map
+    proxy_object.local_key_set(prepare_predicate(predicate)).map
   rescue NativeException => x
     rescue_native_exception x
   end
 
   def local_stats
-    lsm = @hco.local_map_stats
+    lsm = proxy_object.local_map_stats
     { :backup_count => lsm.backup_entry_count, :backup_memory => lsm.backup_entry_memory_cost,
       :created => lsm.creation_time, :last_accessed => lsm.last_access_time,  }
   end

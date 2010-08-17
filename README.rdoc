@@ -1,6 +1,6 @@
-= rubyhaze-0.0.1
+= rubyhaze
 
-JRuby convenience library to connect with {Hazelcast}[http://hazelcast.com]. According to the website:
+RubyHaze is a little gem that wraps the Java Hazelcast library into a more comfortable Ruby package (in JRuby, of course).
 
 Hazelcast is an open source clustering and highly scalable data distribution platform for Java, which is:
 
@@ -15,7 +15,7 @@ Let's get the gem installed and test out the interactive console.
 
   rvm jruby
   gem install rubyhaze
-  export HAZELCAST_JAR_PATH=/my/own/path/hazelcast-1.8.5.jar
+  export HAZELCAST_NODE_JAR_PATH=/my/own/path/hazelcast-1.8.5.jar
   rh_console
 
   hash = RH::Hash[:test]

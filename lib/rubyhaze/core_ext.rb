@@ -22,7 +22,7 @@ class Array
 end
 
 # Extracted from truthy (http://github.com/ymendel/truthy/tree/master/lib/truthy.rb)
-# and Rails (http://github.com/rails/rails/commit/823b623fe2de8846c37aa13250010809ac940b57) although changed to NOT look for private methods
+# and Rails (http://github.com/rails/rails/commit/823b623fe2de8846c37aa13250010809ac940b57)
 
 class Object
 
@@ -47,7 +47,7 @@ class Object
   # @people.try(:map) {|p| p.name}
   #
   def try(method, *args, &block)
-    send(method, *args, &block) if respond_to?(method, true)
+    send(method, *args, &block) if respond_to?(method)
   end
 
   # List unique local methods
@@ -59,18 +59,39 @@ class Object
 end
 
 class String
-  def lines
-    self.split("\n").size
-  end
-
-  def valid_uuid_str(uuid)
-  end
-
   def self.random_uuid
     java.util.UUID.randomUUID.toString
   end
 
   def valid_uuid?
     !!(size == 36 && self =~ %r{^([A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12})$}i)
+  end
+end
+
+# Taken from ActiveSupport
+class Hash
+  def slice(*keys)
+    keys = keys.map! { |key| convert_key(key) } if respond_to?(:convert_key)
+    hash = self.class.new
+    keys.each { |k| hash[k] = self[k] if has_key?(k) }
+    hash
+  end
+
+  def slice!(*keys)
+    keys = keys.map! { |key| convert_key(key) } if respond_to?(:convert_key)
+    omit = slice(*self.keys - keys)
+    hash = slice(*keys)
+    replace(hash)
+    omit
+  end
+
+  def except(*keys)
+    dup.except!(*keys)
+  end
+
+  def except!(*keys)
+    keys.map! { |key| convert_key(key) } if respond_to?(:convert_key)
+    keys.each { |key| delete(key) }
+    self
   end
 end
