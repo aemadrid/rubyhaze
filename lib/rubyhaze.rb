@@ -7,10 +7,11 @@ module RubyHaze
   class Exception < StandardError; end
   class HazelcastException < StandardError; end
 
-  ROOT     = File.expand_path File.join(File.dirname(__FILE__), '..') unless defined? ROOT
-  TMP_PATH = (ENV['RUBYHAZE_TMP_PATH'] || ROOT + '/tmp')
-
-  $CLASSPATH << TMP_PATH
+  if $DEBUG
+    # Set tmp path to debug java class files out
+    TMP_PATH = (ENV['RUBYHAZE_TMP_PATH'] || File.join(File.dirname(__FILE__), '..', 'TMP'))
+    $CLASSPATH << TMP_PATH
+  end
 
   unless defined? MODE
     require 'rubyhaze/' + (ENV['RUBYHAZE_MODE'] || 'node')
