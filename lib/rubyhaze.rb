@@ -29,7 +29,7 @@ module RubyHaze
 
     java_import 'com.hazelcast.core.Hazelcast'
 
-    def connect(config = nil)
+    def init(config = nil)
       config = config.try(:proxy_object)
       Hazelcast.init config if config
       at_exit do

@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../lib/rubyhaze')
 require 'test/unit'
 
-RubyHaze.connect
+RubyHaze.init
 
 class Foo
   include RubyHaze::Stored
