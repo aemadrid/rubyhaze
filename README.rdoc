@@ -13,10 +13,10 @@ Hazelcast is an open source clustering and highly scalable data distribution pla
 
 Let's get the gem installed and test out the interactive console.
 
-  rvm jruby
-  gem install rubyhaze
-  export HAZELCAST_NODE_JAR_PATH=/my/own/path/hazelcast-1.8.5.jar
-  rh_console
+  shell> rvm jruby
+  shell> gem install rubyhaze
+  shell> export HAZELCAST_NODE_JAR_PATH=/my/own/path/hazelcast-1.8.5.jar
+  shell> rubyhaze_console
 
   hash = RH::Hash[:test]
   hash[:a] = 1
@@ -24,7 +24,7 @@ Let's get the gem installed and test out the interactive console.
 
 Let's open another console to check how this distributed hash works:
 
-  rh_console
+  shell> rubyhaze_console
 
   hash = RH::Hash[:test]
   hash[:a]
@@ -35,7 +35,7 @@ Let's open another console to check how this distributed hash works:
 
 Now let's share our own objects:
 
-  rh_console
+  shell> rubyhaze_console
 
   class Foo
     include RubyHaze::Stored

@@ -10,7 +10,6 @@ class RubyHaze::NetworkConfig
 
   def initialize(name, options = nil)
     @proxy_object = Java::ComHazelcastConfig::NetworkConfig.new
-    self.name = name.to_s
     options ||= self.class.default_options
     options.each { |k,v| send "#{k}=", v }
   end

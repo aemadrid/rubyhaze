@@ -1,14 +1,10 @@
-require File.expand_path(File.dirname(__FILE__) + '/../lib/rubyhaze')
-require 'test/unit'
-begin; require 'redgreen'; rescue LoadError; end
+require File.expand_path(File.dirname(__FILE__) + '/helper')
 
 class Foo
   include RubyHaze::Stored
   field :name, :string
   field :age, :int
 end unless defined? Foo
-
-RubyHaze.connect
 
 class TestRubyHazeStoredClassMethods < Test::Unit::TestCase
 

@@ -12,7 +12,7 @@ begin
     gem.email = "aemadrid@gmail.com"
     gem.homepage = "http://github.com/aemadrid/rubyhaze"
     gem.authors = ["Adrian Madrid"]
-    gem.files = FileList['bin/*', 'lib/**/*.rb', 'test/**/*.rb', '[A-Z]*'].to_a
+    gem.files = FileList['bin/*', 'lib/**/*.rb', 'jars/**/*', 'test/**/*.rb', '[A-Z]*'].to_a
     gem.test_files = Dir["test/test*.rb"]
     gem.platform = "jruby"
     gem.add_dependency "bitescript"
@@ -24,7 +24,7 @@ end
 
 Rake::TestTask.new :test do |t|
   t.libs << "lib"
-  t.test_files = FileList["test/**/test_*.rb"rb]
+  t.test_files = FileList["test/**/test_*.rb"]
 end
 
 task :test => :check_dependencies
