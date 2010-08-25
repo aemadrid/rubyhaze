@@ -10,4 +10,3 @@ module RubyHaze
 end
 
 require File.expand_path(File.dirname(__FILE__) + '/../../lib/rubyhaze')
-

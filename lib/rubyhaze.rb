@@ -36,7 +36,6 @@ module RubyHaze
     # object will be generated.
     def init(options = nil)
       unless @connected
-        options ||= RubyHaze::Config.yaml_hash
         if options
           config = RubyHaze::Config.new(options).proxy_object
           Hazelcast.init config
