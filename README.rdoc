@@ -15,7 +15,6 @@ Let's get the gem installed and test out the interactive console.
 
   shell> rvm jruby
   shell> gem install rubyhaze
-  shell> export HAZELCAST_NODE_JAR_PATH=/my/own/path/hazelcast-1.8.5.jar
   shell> rubyhaze_console
 
   hash = RH::Hash[:test]
