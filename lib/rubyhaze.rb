@@ -68,8 +68,6 @@ module RubyHaze
 
 end
 
-require 'rubyhaze/core_ext'
-
 require 'rubyhaze/mixins/proxy'
 require 'rubyhaze/mixins/compare'
 require 'rubyhaze/mixins/native_exception'
@@ -88,7 +86,5 @@ require 'rubyhaze/configs/map'
 require 'rubyhaze/configs/network'
 require 'rubyhaze/configs/queue'
 require 'rubyhaze/configs/config'
-
-require 'rubyhaze/stored'
 
 RH = RubyHaze unless defined? RH
