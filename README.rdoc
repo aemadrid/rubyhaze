@@ -32,7 +32,7 @@ Let's open another console to check how this distributed hash works:
 
 == Distributed Objects
 
-Check out the [[rubyhaze-persisted|http://github.com/aemadrid/rubyhaze-persisted]] gem to get your own distributed ruby objects:
+Check out the http://github.com/aemadrid/rubyhaze-persisted gem to get your own distributed ruby objects:
 
   shell> rvm jruby
   shell> gem install rubyhaze-persisted
