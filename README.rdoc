@@ -32,24 +32,28 @@ Let's open another console to check how this distributed hash works:
 
 == Distributed Objects
 
-Now let's share our own objects:
+Check out the [rubyhaze-persisted|http://github.com/aemadrid/rubyhaze-persisted] gem to get your own distributed ruby objects:
 
+  shell> rvm jruby
+  shell> gem install rubyhaze-persisted
   shell> rubyhaze_console
 
+  require 'rubyhaze-persisted'
+
   class Foo
-    include RubyHaze::Stored
-    field :name, :string
-    field :age, :int
+    include RubyHaze::Persisted
+    attribute :name, :string
+    attribute :age, :int
   end
 
-  a = Foo.create :name => "Leonardo", :age => 65
-  b = Foo.create :name => "Michelangelo", :age => 45
-  c = Foo.create :name => "Raffaello", :age => 32
+  a = Foo.create :name => "Raffaello", :age => 32
+  b = Foo.create :name => "Leonardo", :age => 45
+  c = Foo.create :name => "Michelangelo", :age => 65
 
-  found = Foo.find 'age BETWEEN 40 AND 50'
+  found = Foo.find "age < 60 AND name LIKE '%lo'"
   found.first.name
 
-  >> "Michelangelo"
+  >> "Raffaello"
 
 == Note on Patches/Pull Requests
  

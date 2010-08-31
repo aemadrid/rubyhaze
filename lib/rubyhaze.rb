@@ -7,11 +7,6 @@ module RubyHaze
   class Exception < StandardError; end
   class HazelcastException < StandardError; end
 
-  if $DEBUG
-    TMP_PATH = (ENV['RUBYHAZE_TMP_PATH'] || File.join(File.dirname(__FILE__), '..', 'TMP'))
-    $CLASSPATH << TMP_PATH
-  end
-
   unless defined? MODE
     require 'rubyhaze/' + (ENV['RUBYHAZE_MODE'] || 'node')
   end
@@ -48,6 +43,16 @@ module RubyHaze
         @connected = true
       end
       Hazelcast.cluster      
+    end
+
+    def random_uuid
+      java.util.UUID.randomUUID.to_string
+    end
+
+    def valid_uuid?(uuid)
+      !!(uuid.is_a?(String) &&
+         uuid.size == 36 &&
+         uuid =~ %r{^([A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12})$}i)
     end
 
     # Proxying to Hazelcast class

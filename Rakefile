@@ -15,7 +15,6 @@ begin
     gem.files = FileList['bin/*', 'lib/**/*.rb', 'jars/**/*', 'test/**/*.rb', '[A-Z]*'].to_a
     gem.test_files = Dir["test/test*.rb"]
     gem.platform = "jruby"
-    gem.add_dependency "bitescript"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
