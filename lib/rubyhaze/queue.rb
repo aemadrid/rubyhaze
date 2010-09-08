@@ -9,4 +9,8 @@ class RubyHaze::Queue
     @proxy_object = Hazelcast.get_queue @name
   end
 
+  def poll(timeout = 5, unit = :seconds)
+    @proxy_object.poll timeout, java.util.concurrent.TimeUnit.const_get(unit.to_s.upcase)
+  end
+
 end

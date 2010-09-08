@@ -27,22 +27,30 @@ module RubyHaze
 
     java_import 'com.hazelcast.core.Hazelcast'
 
+    def connected?
+      !!@connected
+    end
+
     # To start a cluster we can pass a hash of options or nil to load it from ./hazelcast.yml if available and a Config
     # object will be generated.
     def init(options = nil)
-      unless @connected
+      if connected?
+        puts ">> Already connected with Hazelcast ..."
+        false
+      else
         if options
           config = RubyHaze::Config.new(options).proxy_object
           Hazelcast.init config
-        end
-        at_exit do
-          puts ">> Shutting down Hazelcast ..."
-          Hazelcast.shutdown
-          puts ">>  ... done!"
+        else
+          Hazelcast.cluster
         end
         @connected = true
       end
-      Hazelcast.cluster      
+    end
+
+    def shutdown
+      @connected = false
+      Hazelcast.shutdown
     end
 
     def random_uuid
@@ -71,6 +79,14 @@ module RubyHaze
 
   end
 
+end
+
+at_exit do
+  if RubyHaze.connected?
+    puts ">> Shutting down Hazelcast before closing shop ..."
+    RubyHaze.shutdown
+    puts ">>  ... done!"
+  end
 end
 
 require 'rubyhaze/mixins/proxy'

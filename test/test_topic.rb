@@ -1,23 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/helper')
-
-class Notices
-  class << self
-    extend Forwardable
-    def all
-      @all ||= []
-    end
-    def_delegators :all, :size, :<<, :first, :last, :clear, :map
-  end
-end unless defined? Notices
-
-class TestListener
-  def initialize(name)
-    @name = name
-  end
-  def on_message(msg)
-    Notices << "[#{@name}] #{msg}"
-  end
-end
+require File.expand_path(File.dirname(__FILE__) + '/helper') unless defined?(HELPER_LOADED)
 
 class TestRubyHazeTopic < Test::Unit::TestCase
 

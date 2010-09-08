@@ -4,14 +4,15 @@ class TestRubyHazeQueue < Test::Unit::TestCase
 
   def test_single_queing
     tasks = RubyHaze::Queue[:test_single]
-    50.times { |idx| tasks.put [idx, Process.pid] }
+    qty = 50
+    qty.times { |idx| tasks.put [idx, Process.pid] }
     found = []
     while !tasks.empty? do
-      task = tasks.poll 5, java.util.concurrent.TimeUnit::SECONDS
+      task = tasks.poll
       found << task
     end
     assert !found.empty?
-    assert_equal found.size, 50
+    assert_equal found.size, qty
   end
 
 end

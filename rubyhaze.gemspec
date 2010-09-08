@@ -10,9 +10,9 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Adrian Madrid"]
-  s.date = %q{2010-08-30}
+  s.date = %q{2010-09-08}
   s.default_executable = %q{rubyhaze_console}
-  s.description = %q{RubyHaze is a little gem that wraps the Java Hazelcast library into a more comfortable Ruby package (in JRuby, of course).}
+  s.description = %q{RubyHaze is a little gem that wraps the Java Hazelcast library into a more comfortable JRuby package.}
   s.email = %q{aemadrid@gmail.com}
   s.executables = ["rubyhaze_console"]
   s.extra_rdoc_files = [
@@ -25,8 +25,8 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "bin/rubyhaze_console",
-     "jars/hazelcast-1.8.5.jar",
-     "jars/hazelcast-client-1.8.5.jar",
+     "jars/hazelcast-1.9-RC.jar",
+     "jars/hazelcast-client-1.9-RC.jar",
      "lib/rubyhaze.rb",
      "lib/rubyhaze/client.rb",
      "lib/rubyhaze/configs/config.rb",
@@ -56,7 +56,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.6}
-  s.summary = %q{JRuby wrapper to play with Hazelcast}
+  s.summary = %q{Hazelcast distributed objects in my JRuby}
   s.test_files = [
     "test/test_hash.rb",
      "test/test_queue.rb",
