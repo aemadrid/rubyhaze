@@ -65,7 +65,10 @@ class RubyHaze::Map
       when String
         SqlPredicate.new predicate
       when Hash
-        SqlPredicate.new predicate.map{|k,v| "#{k} = #{v}"}.join(' AND ')
+        SqlPredicate.new predicate.map do |k,v|
+          v = %{"#{v.gsub('"','\"')}"} if v.is_a?(String)
+          "#{k} = #{v}"
+        end.join(' AND ')
       when SqlPredicate
         predicate
       else
