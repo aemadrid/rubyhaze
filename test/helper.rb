@@ -1,4 +1,4 @@
-unless HELPER_LOADED
+unless defined?(HELPER_LOADED)
 
   require File.expand_path(File.dirname(__FILE__) + '/../lib/rubyhaze')
   require 'test/unit'
