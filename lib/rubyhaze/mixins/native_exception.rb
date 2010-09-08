@@ -5,7 +5,7 @@ module RubyHaze
       def rescue_native_exception(exception)
         exception = exception.cause while exception.cause
         exception.print_stack_trace
-        raise RubyHaze::HazelcastException(exception)
+        raise RubyHaze::HazelcastException.new(exception)
       end
 
     end

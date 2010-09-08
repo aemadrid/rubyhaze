@@ -34,19 +34,23 @@ class RubyHaze::Map
   end
 
   def keys(predicate = nil)
-    proxy_object.key_set(prepare_predicate(predicate)).map
+    predicate = prepare_predicate(predicate) unless predicate.is_a?(SqlPredicate)
+    proxy_object.key_set(predicate).map
   rescue NativeException => x
     rescue_native_exception x
   end
 
   def values(predicate = nil)
-    proxy_object.values(prepare_predicate(predicate)).map
+    predicate = prepare_predicate(predicate) unless predicate.is_a?(SqlPredicate)
+    proxy_object.values(predicate).map
   rescue NativeException => x
     rescue_native_exception x
   end
+  alias :find :values
 
   def local_keys(predicate = nil)
-    proxy_object.local_key_set(prepare_predicate(predicate)).map
+    predicate = prepare_predicate(predicate) unless predicate.is_a?(SqlPredicate)
+    proxy_object.local_key_set(predicate).map
   rescue NativeException => x
     rescue_native_exception x
   end
@@ -57,24 +61,26 @@ class RubyHaze::Map
       :created => lsm.creation_time, :last_accessed => lsm.last_access_time,  }
   end
 
-  private
-  
   def prepare_predicate(predicate)
     return if predicate.nil?
     case predicate
       when String
         SqlPredicate.new predicate
       when Hash
-        SqlPredicate.new predicate.map do |k,v|
-          v = %{"#{v.gsub('"','\"')}"} if v.is_a?(String)
-          "#{k} = #{v}"
+        query = predicate.map do |field, value|
+          cmp = '='
+          if value.is_a?(String)
+            value = "'" + value + "'"
+            cmp = 'LIKE' if value.index('%')
+          end
+          "#{field} #{cmp} #{value}"
         end.join(' AND ')
-      when SqlPredicate
-        predicate
+        SqlPredicate.new query
       else
         raise "Unknown predicate type"
     end
   end
+
 end
 
 RubyHaze::Hash = RubyHaze::Map unless defined? RubyHaze::Hash

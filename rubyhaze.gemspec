@@ -48,7 +48,7 @@ Gem::Specification.new do |s|
      "lib/rubyhaze/set.rb",
      "lib/rubyhaze/topic.rb",
      "test/helper.rb",
-     "test/test_hash.rb",
+     "test/test_map.rb",
      "test/test_queue.rb",
      "test/test_topic.rb"
   ]
@@ -58,7 +58,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{Hazelcast distributed objects in my JRuby}
   s.test_files = [
-    "test/test_hash.rb",
+    "test/test_map.rb",
      "test/test_queue.rb",
      "test/test_topic.rb"
   ]

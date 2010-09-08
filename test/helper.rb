@@ -29,6 +29,10 @@ unless defined?(HELPER_LOADED)
     end
   end
 
+  # Loading the Employee Java class
+  $CLASSPATH << File.expand_path(File.dirname(__FILE__)) + '/'
+  java_import 'Employee'
+
   # Finished loading helpers
   HELPER_LOADED = true
 
